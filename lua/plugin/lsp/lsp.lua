@@ -12,9 +12,12 @@ return{
 		vim.diagnostic.config({
 			virtual_text = true,
 			sings = true,
-			update_in_insert = false, 
+			update_in_insert = false,
 			serverity_sort = true,
 		})
 		require("plugin.lsp.lsp_lua")
+		require("plugin.lsp.lsp_python")
+		require("plugin.lsp.lsp_c_c++")
+		require("plugin.lsp.lsp_dart")
 	end
 }

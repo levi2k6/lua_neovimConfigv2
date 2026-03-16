@@ -1,5 +1,5 @@
 local on_attach = require("plugin.lsp.lspKeymap")
-local capabilities = require("cmp_cmp_lsp").default_capabilities()
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 vim.lsp.config("pyright", {
 	on_attach = on_attach,

@@ -1,5 +1,5 @@
-local settings = require("plugin.settings.settingsState")
-local settingsManager = require("plugin.settings.settingsManager")
+local settings = require("custom.settings.settingsState")
+local settingsManager = require("custom.settings.settingsManager")
 
 
 vim.api.nvim_create_autocmd({"BufEnter", "WinEnter"}, {

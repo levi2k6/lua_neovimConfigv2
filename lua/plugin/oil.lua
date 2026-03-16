@@ -17,6 +17,7 @@ return {
             },
         })
 
-        vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+        vim.keymap.set("n", "<C-h>", "<CMD>Oil<CR>", {})
+		vim.keymap.set("t", "<C-h>", "<CMD>Oil<CR>", {})
     end,
 }

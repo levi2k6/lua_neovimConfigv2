@@ -20,5 +20,6 @@ require("lazy").setup({
 	require("plugin.harpoon"),
 	require("plugin.style"),
 	require("plugin.oil"),
+	require("plugin.noice"),
 })
 

@@ -1,3 +1,4 @@
+require("custom.settings.settings")
+require("custom.events")
 require("custom.keymaps")
 require("custom.commands")
-require("custom.settings.settings")
