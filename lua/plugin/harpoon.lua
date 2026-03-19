@@ -23,7 +23,6 @@ return {
 		vim.keymap.set("n", "<leader>h7", function() set_slot(7) end, {desc = "Harpoon: Set file in slot 7"})
 		vim.keymap.set("n", "<leader>h8", function() set_slot(8) end, {desc = "Harpoon: Set file in slot 8"})
 		vim.keymap.set("n", "<leader>h9", function() set_slot(9) end, {desc = "Harpoon: Set file in slot 9"})
-		vim.keymap.set("n", "<leader>h0", function() set_slot(0) end, {desc = "Harpoon: Set file in slot 0"})
 
 		vim.keymap.set("n", "<leader>1", function() ui.nav_file(1) end, {desc = "Harpoon: Go to file 1"})
 		vim.keymap.set("n", "<leader>2", function() ui.nav_file(2) end, {desc = "Harpoon: Go to file 2"})
@@ -34,7 +33,6 @@ return {
 		vim.keymap.set("n", "<leader>7", function() ui.nav_file(7) end, {desc = "Harpoon: Go to file 7"})
 		vim.keymap.set("n", "<leader>8", function() ui.nav_file(8) end, {desc = "Harpoon: Go to file 8"})
 		vim.keymap.set("n", "<leader>9", function() ui.nav_file(9) end, {desc = "Harpoon: Go to file 9"})
-		vim.keymap.set("n", "<leader>0", function() ui.nav_file(0) end, {desc = "Harpoon: Go to file 0"})
 
 	end
 }
