@@ -17,7 +17,6 @@ return {
             },
         })
 
-        vim.keymap.set("n", "<C-h>", "<CMD>Oil<CR>", {})
-		vim.keymap.set("t", "<C-h>", "<CMD>Oil<CR>", {})
+        vim.keymap.set("n", "-", "<CMD>Oil<CR>", {})
     end,
 }

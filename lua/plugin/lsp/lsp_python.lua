@@ -2,23 +2,34 @@ local on_attach = require("plugin.lsp.lspKeymap")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 vim.lsp.config("pyright", {
-	on_attach = on_attach,
-	capabilities = capabilities,
-	before_init = function(_, config)
-		local cwd = vim.fn.getcwd()
-
-		local venvPaths = {"venv/bin/python", ".venv/bin/python"}
-
-		for _, path in ipairs(venvPaths) do
-			local fullPath = cwd .. "/" .. path
-			if vim.fn.filereadable(fullPath) == 1 then
-				config.settings.python.pythonPath = fullPath
-				return
-			end
-		end
-
-		config.settings.pyton.pythonPath = vim.fn.exepath("python3")
-	end
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        pyright = {
+            typeCheckingMode = "basic",  -- or "off"
+        },
+        python = {
+            analysis = {
+                reportUnnecessaryComparison = "none",
+				autoSearchPaths = true,
+				useLibraryCodeForTypes = true,
+            },
+			venvPath = ".",
+			venv = "venv",
+        }
+    },
+    before_init = function(_, config)
+        local cwd = vim.fn.getcwd()
+        local venvPaths = {"venv/bin/python", ".venv/bin/python"}
+        for _, path in ipairs(venvPaths) do
+            local fullPath = cwd .. "/" .. path
+            if vim.fn.filereadable(fullPath) == 1 then
+                config.settings.python.pythonPath = fullPath
+                return
+            end
+        end
+        config.settings.python.pythonPath = vim.fn.exepath("python3")  -- fixed typo too
+    end
 })
 
 vim.api.nvim_create_autocmd("BufWritePost", {
