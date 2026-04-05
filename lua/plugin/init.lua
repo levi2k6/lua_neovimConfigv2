@@ -8,18 +8,18 @@ if not vim.loop.fs_stat(lazypath) then
 		"--branch=stable",
 		lazypath,
 	})
-end	
+end
 
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	require("plugin.treesitter"),
+	require("plugin.oil"),
 	require("plugin.telescope"),
 	require("plugin.lsp.lsp"),
 	require("plugin.completion"),
 	require("plugin.harpoon"),
 	require("plugin.style"),
-	require("plugin.oil"),
 	require("plugin.noice"),
 })
 
