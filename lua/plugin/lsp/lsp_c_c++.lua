@@ -1,7 +1,7 @@
 local on_attach = require("plugin.lsp.lspKeymap")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-vim.lsp.config("clangd",{
+vim.lsp.config("clangd", {
 	on_attach = on_attach,
 	capabilities = capabilities,
 	cmd = {
@@ -11,14 +11,10 @@ vim.lsp.config("clangd",{
 		"--header-insertion=iwyu",
 		"--completion-style=detailed",
 	},
-	filestypes = {"c", "cpp", "objc", "objcpp"},
-	root_dir = function(fname)
-		return require("lspconfig.util").root_pattern(
-			"compile_commands.json",
-			"compile_flags.txt",
-			".git"
-		)(fname)
-	end,
+	filetypes = { "c", "cpp", "objc", "objcpp" },
+	root_markers = {
+		"compile_commands.json",
+		"compile_flags.txt",
+		".git",
+	},
 })
-
-vim.lsp.enable("clangd")
