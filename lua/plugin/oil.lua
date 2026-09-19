@@ -14,6 +14,7 @@ return {
                 ["_"] = "actions.open_cwd",
                 ["q"] = "actions.close",
                 ["<C-p>"] = "actions.preview",
+				["<C-h>"] = false,
             },
         })
 
