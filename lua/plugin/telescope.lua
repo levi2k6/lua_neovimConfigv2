@@ -56,5 +56,57 @@ return {
                 end,
             })
         end, {})
+
+        -- telescope picker limited to terminal buffers
+        vim.keymap.set("n", "<leader>ft", function()
+            local pickers = require("telescope.pickers")
+            local finders = require("telescope.finders")
+            local conf = require("telescope.config").values
+            local actions = require("telescope.actions")
+            local action_state = require("telescope.actions.state")
+
+            local results = {}
+            for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+                if vim.api.nvim_buf_is_loaded(bufnr) and vim.bo[bufnr].buftype == "terminal" then
+                    local name = vim.api.nvim_buf_get_name(bufnr)
+                    results[#results + 1] = { bufnr = bufnr, name = name }
+                end
+            end
+
+            if #results == 0 then
+                vim.notify("No terminal buffers", vim.log.levels.INFO)
+                return
+            end
+
+            pickers.new({}, {
+                prompt_title = "Terminal Buffers",
+                finder = finders.new_table({
+                    results = results,
+                    entry_maker = function(entry)
+                        local display = string.format("%d: %s", entry.bufnr, entry.name)
+                        return {
+                            value = entry,
+                            display = display,
+                            ordinal = display,
+                            bufnr = entry.bufnr,
+                        }
+                    end,
+                }),
+                sorter = conf.generic_sorter({}),
+                previewer = conf.grep_previewer({}),
+                attach_mappings = function(prompt_bufnr)
+                    actions.select_default:replace(function()
+                        actions.close(prompt_bufnr)
+                        local selection = action_state.get_selected_entry()
+                        if not selection then
+                            return
+                        end
+                        vim.api.nvim_set_current_buf(selection.bufnr)
+                        vim.cmd("startinsert")
+                    end)
+                    return true
+                end,
+            }):find()
+        end, { desc = "Telescope: Terminal buffers" })
     end
 }

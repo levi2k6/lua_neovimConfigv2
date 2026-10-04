@@ -42,3 +42,9 @@ vim.api.nvim_create_user_command("SetWidth", function(opts)
 end, {nargs=1})
 
 
+vim.api.nvim_create_user_command("Path", function()
+	local path = vim.fn.expand("%:p:h")
+	vim.fn.setreg("+", path)
+	print("Copied: " .. path)
+end, {})
+
