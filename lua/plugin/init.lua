@@ -24,5 +24,6 @@ require("lazy").setup({
 	-- require("plugin.harpoon"),
 	require("plugin.style"),
 	require("plugin.noice"),
+	require("plugin.sudo-tee_opencode"),
 })
 
