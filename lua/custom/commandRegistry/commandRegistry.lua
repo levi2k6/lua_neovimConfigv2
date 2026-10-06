@@ -3,6 +3,7 @@ local manager = require("custom.commandRegistry.commandRegistryManager")
 
 local highlightNs = vim.api.nvim_create_namespace("command_registry")
 vim.api.nvim_set_hl(0, "CommandRegistryDelete", { link = "DiagnosticError" })
+vim.api.nvim_set_hl(0, "CommandRegistryEdit", { link = "DiagnosticInfo" })
 
 
 local function notify(message)
@@ -53,7 +54,7 @@ local function updateWindowConfig()
 		border = "rounded",
 		title = " Command Registry ",
 		title_pos = "center",
-		footer = " [s]ave  [1-9]run  [d]elete  [q]uit   mode: " .. state.mode .. " ",
+		footer = " [s]ave  [e]dit  [1-9]run  [d]elete  [q]uit   mode: " .. state.mode .. " ",
 		footer_pos = "center",
 	})
 end
@@ -83,6 +84,10 @@ local function render()
 	if state.mode == "delete" then
 		for i = 1, #state.commands do
 			vim.api.nvim_buf_add_highlight(buf, highlightNs, "CommandRegistryDelete", i - 1, 6, -1)
+		end
+	elseif state.mode == "edit" then
+		for i = 1, #state.commands do
+			vim.api.nvim_buf_add_highlight(buf, highlightNs, "CommandRegistryEdit", i - 1, 6, -1)
 		end
 	end
 
@@ -145,6 +150,25 @@ local function deleteCommand(index)
 end
 
 
+local function editCommand(index)
+	local command = state.commands[index]
+	if not command then
+		return
+	end
+
+	vim.ui.input({ prompt = "Command: ", default = command }, function(input)
+		if input == nil or input == "" then
+			return
+		end
+
+		state.commands[index] = input
+		manager.saveRegistry(state.project, state.commands)
+		state.mode = "normal"
+		render()
+	end)
+end
+
+
 local function handleNumber(key)
 	local index = tonumber(key)
 	if not index then
@@ -153,6 +177,8 @@ local function handleNumber(key)
 
 	if state.mode == "delete" then
 		deleteCommand(index)
+	elseif state.mode == "edit" then
+		editCommand(index)
 	else
 		runCommand(index)
 	end
@@ -173,6 +199,9 @@ local function setKeymaps(buf)
 	vim.keymap.set("n", "<Esc>", closePanel, opts)
 	vim.keymap.set("n", "d", function()
 		setMode(state.mode == "delete" and "normal" or "delete")
+	end, opts)
+	vim.keymap.set("n", "e", function()
+		setMode(state.mode == "edit" and "normal" or "edit")
 	end, opts)
 
 	for i = 1, 9 do
